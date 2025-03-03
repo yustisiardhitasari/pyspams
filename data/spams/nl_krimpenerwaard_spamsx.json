@@ -1,0 +1,11 @@
+{
+  "project_name": "krimpenerwaard",
+  "spams_filename": "nl_krimpenerwaard_spamsx.parquet",
+  "metadata_filename": "nl_krimpenerwaard_meta.json",
+  "knmi_id": [
+    344,
+    348
+  ],
+  "insar_start_date": 20160101,
+  "insar_end_date": 20221231
+}
