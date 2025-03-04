@@ -1,7 +1,7 @@
 {
   "project_name": "krimpenerwaard",
   "spams_filename": "nl_krimpenerwaard_spamsx.parquet",
-  "metadata_filename": "nl_krimpenerwaard_meta.json",
+  "metadata_filename": "nl_krimpenerwaard_spamx.json",
   "knmi_id": [
     344,
     348
