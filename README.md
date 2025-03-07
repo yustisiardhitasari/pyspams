@@ -1,4 +1,4 @@
-# spams
+# pyspams
 A Python implementation of Simple Parameterization for the Motion of Soils (SPAMS)
 
 Reference: Conroy, P., van Diepen, S.A., Hanssen, R.F., 2023. SPAMS: A new empirical model for soft soil surface displacement based on meteorological input data. Geoderma 440, 116699. doi:10.1016/j.geoderma.2023.116699.
