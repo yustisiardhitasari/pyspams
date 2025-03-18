@@ -14,13 +14,13 @@ def main():
     parser.add_argument(
         "--spamsx_filepath",
         "-spamsx_fp",
-        default="data/nl_krimpenerwaard_spams10.parquet",
+        default="/Users/ylumbangaol/Documents/S3/projects/krimpenerwaard/post/data_for_repo/nl_krimpenerwaard_spams10.parquet",
         help="str, path to the SPAMS parameters file",
     )
     parser.add_argument(
         "--meteo_dir",
         "-met_dir",
-        default="data/",
+        default="/Users/ylumbangaol/Documents/S3/projects/krimpenerwaard/post/data_for_repo/",
         help="str, path to the meteo file",
     )
     parser.add_argument(
@@ -106,28 +106,39 @@ def main():
     ax.plot(epoch, height, "-m", markersize=2, label="Total")
     ax.plot(epoch, reversible, "--C7", markersize=2, label="Reversible")
     ax.plot(epoch, irreversible, "--C7", linewidth=2, label="Irreversible")
-    ax.legend(loc="upper right")
+    ax.legend(loc="upper right", fontsize=8)
     ax.set_ylabel("Relative surface elevation (mm)")
     ax.grid(linestyle="--", alpha=0.5)
 
-    ## Add contextual information using text boxes
+    ## Add information using text boxes
     info_text = (
         f"Parcel ID: {pid}\n"
         f"Loc (lon, lat): {round(df_spams_sel['pnt_lon'].values[0], 4)}, {round(df_spams_sel['pnt_lat'].values[0], 4)}\n"
         f"SPAMS parameters:\n"
-        f"\t$x_P$ = {round(xP,4)}, $\sigma_{{x_P}}$ = {round(std_xP,4)}\n"
-        f"\t$x_E$ = {round(xE,4)}, $\sigma_{{x_E}}$ = {round(std_xE,4)}\n"
-        f"\t$x_I$ = {round(xI,4)} mm/day, $\sigma_{{x_I}}$ = {round(std_xI,4)}\n"
+        f"\t$x_P$ = {round(xP, 4)}, $\sigma_{{x_P}}$ = {round(std_xP, 4)}\n"
+        f"\t$x_E$ = {round(xE, 4)}, $\sigma_{{x_E}}$ = {round(std_xE, 4)}\n"
+        f"\t$x_I$ = {round(xI, 4)} mm/day, $\sigma_{{x_I}}$ = {round(std_xI, 4)}\n"
         f"\t$\\tau$ = {t}"
     )
     ax.text(
-        0.5,
-        0.5,
+        0.02,
+        0.14,
         info_text,
         verticalalignment="center",
         transform=ax.transAxes,
-        fontsize=10,
-        bbox=dict(facecolor="white", alpha=0.8),
+        fontsize=8,
+        bbox=dict(facecolor="white", alpha=0.7),
+    )
+
+    source_text = "Data source: 10.4121/dfbe9109-d058-4a64-a5b4-1cc9d9a5f836"
+    ax.text(
+        0.6,
+        0.04,
+        source_text,
+        verticalalignment="center",
+        transform=ax.transAxes,
+        fontsize=8,
+        bbox=dict(facecolor="white", alpha=0.7),
     )
 
     plt.show()
