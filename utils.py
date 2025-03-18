@@ -67,7 +67,7 @@ def read_knmi(file):
     pd.DataFrame
         Daily precipitation and evapotranspiration.
     """
-    df_knmi = pd.DataFrame(
+    df_meteo = pd.DataFrame(
         data=np.genfromtxt(
             file,
             delimiter=",",
@@ -76,12 +76,12 @@ def read_knmi(file):
             filling_values=np.nan,
             usecols=(0, 1, 22, 40),
         ),
-        columns=["knmi_id", "datum", "precip", "evapo"],
+        columns=["meteo_id", "datum", "precip", "evapo"],
     )
 
-    df_knmi["knmi_id"] = df_knmi["knmi_id"].astype(int)
-    df_knmi["datum"] = pd.to_datetime(df_knmi["datum"].astype(str), format="%Y%m%d.0")
-    df_knmi["precip"] = df_knmi["precip"] / 10  # mm
-    df_knmi["evapo"] = df_knmi["evapo"] / 10  # mm
+    df_meteo["meteo_id"] = df_meteo["meteo_id"].astype(int)
+    df_meteo["datum"] = pd.to_datetime(df_meteo["datum"].astype(str), format="%Y%m%d.0")
+    df_meteo["precip"] = df_meteo["precip"] / 10  # mm
+    df_meteo["evapo"] = df_meteo["evapo"] / 10  # mm
 
-    return df_knmi
+    return df_meteo
