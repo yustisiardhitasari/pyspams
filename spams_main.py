@@ -14,13 +14,13 @@ def main():
     parser.add_argument(
         "--spamsx_filepath",
         "-spamsx_fp",
-        default="/Users/ylumbangaol/Documents/S3/projects/krimpenerwaard/post/data_for_repo/nl_krimpenerwaard_spams10.parquet",
+        default="data/nl_krimpenerwaard_spams10.parquet",
         help="str, path to the SPAMS parameters file",
     )
     parser.add_argument(
         "--meteo_dir",
         "-met_dir",
-        default="/Users/ylumbangaol/Documents/S3/projects/krimpenerwaard/post/data_for_repo/",
+        default="data/",
         help="str, path to the meteo file",
     )
     parser.add_argument(
