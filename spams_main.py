@@ -12,8 +12,8 @@ import utils
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--spamsx_filepath",
-        "-spamsx_fp",
+        "--spams10_filepath",
+        "-spams10_fp",
         default="data/nl_krimpenerwaard_spams10.parquet",
         help="str, path to the SPAMS parameters file",
     )
@@ -26,7 +26,7 @@ def main():
     parser.add_argument(
         "--meteo_filename",
         "-met_fn",
-        help="str, the meteorological data file name",
+        help="str, the meteo data file name (optional). If specified, will use this station even though it is not the closest one",
     )
     parser.add_argument(
         "--start_date",
@@ -43,13 +43,13 @@ def main():
     parser.add_argument(
         "--parcel_id",
         "-pid",
-        help="int, it will take a random parcel if empty",
+        help="int, parcel ID (optional). It will take a random parcel if it is empty",
     )
 
     args = parser.parse_args()
 
     ## Load SPAMS parameters
-    df_spams = pd.read_parquet(args.spamsx_filepath)
+    df_spams = pd.read_parquet(args.spams10_filepath)
     pnt_ids = df_spams["pnt_id"].unique()
 
     ## Time series dates
