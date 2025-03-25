@@ -158,14 +158,12 @@ def main():
         meteo_subset["datum"],
         meteo_subset["precip"],
         color="blue",
-        alpha=0.6,
         label="Daily precip.",
     )
     ax2.bar(
         meteo_subset["datum"],
         -meteo_subset["evapo"],
         color="red",
-        alpha=0.6,
         label="Daily evapo. (negative)",
     )
 
