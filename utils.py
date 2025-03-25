@@ -1,3 +1,5 @@
+import math
+
 import numpy as np
 import pandas as pd
 
@@ -47,6 +49,33 @@ def spams_model(xP, xE, xI, tau, meteo_df):
     return reversible, irreversible, height
 
 
+def irreversible_rate(irreversible, xI, var_xI):
+    """Irreversible rate in mm/year
+
+    Parameters
+    ----------
+    irreversible : np.array
+        SPAMS time series model for irreversible part.
+    xI : float
+        Irreversible constant, active during dry period (mm/day).
+    var_xI : float
+        Variance of the irreversible constant.
+
+    Returns
+    -------
+    float
+        Mean irreversible rate per year and its variance.
+    """
+    ## Dry flag: integer boolean masking the dry periods with 1
+    dry_flag = np.insert(np.diff(irreversible / xI), 0, 0)
+
+    ## Linear irreversible rate per year and its standard deviation
+    vI = irreversible[-1] / (irreversible.shape[0] / 365.25)
+    std_vI = np.sqrt(var_xI) * (np.sum(dry_flag) / (irreversible.shape[0] / 365.25))
+
+    return vI, std_vI
+
+
 def read_knmi(file):
     """Precipitation and evapotranspiration data from
     The Royal Netherlands Meteorological Institute (KNMI).
@@ -85,3 +114,40 @@ def read_knmi(file):
     df_meteo["evapo"] = df_meteo["evapo"] / 10  # mm
 
     return df_meteo
+
+
+def format_with_uncertainty(value, uncertainty):
+    """Format a value with its uncertainty.
+
+    This function rounds the uncertainty to 1 significant figure
+    and the value to match the decimal place of the uncertainty.
+
+    Parameters:
+    ----------
+    value : float
+        The main value.
+    uncertainty : float
+        The uncertainty associated with the value.
+
+    Returns
+    -------
+    str
+        A formatted string showing the value with its uncertainty.
+    """
+    if uncertainty == 0:
+        return f"{value}"  # No uncertainty to display
+
+    ## Determine the order of magnitude of the uncertainty
+    order_of_magnitude = -int(math.floor(math.log10(abs(uncertainty))))
+
+    ## Round the uncertainty to 1 significant figure
+    rounded_uncertainty = round(uncertainty, order_of_magnitude)
+
+    ## Round the value to match the decimal place of the rounded uncertainty
+    rounded_value = round(value, order_of_magnitude)
+
+    ## Format as a string
+    formatted_value = f"{rounded_value:.{order_of_magnitude}f}"
+    formatted_uncertainty = f"{rounded_uncertainty:.{order_of_magnitude}f}"
+
+    return f"{formatted_value} $\pm$ {formatted_uncertainty}"

@@ -31,13 +31,13 @@ def main():
     parser.add_argument(
         "--start_date",
         "-sdate",
-        default=20230101,
+        default=20200101,
         help="int, start date when computing the SPAMS model",
     )
     parser.add_argument(
         "--end_date",
         "-edate",
-        default=20231231,
+        default=20241231,
         help="int, end date when computing the SPAMS model",
     )
     parser.add_argument(
@@ -98,49 +98,85 @@ def main():
             & (df_meteo["datum"] <= end)
         ].reset_index(drop=True)
 
-    ## Compute SPAMS model
+    ## Compute SPAMS model and mean irreversible rate
     reversible, irreversible, height = utils.spams_model(xP, xE, xI, t, meteo_subset)
+    vI, std_vI = utils.irreversible_rate(
+        irreversible, xI, df_spams_sel["var_xI"].values[0]
+    )
 
-    ## An example plot for a random parcel
-    fig, ax = plt.subplots(figsize=(12, 6))
-    ax.plot(epoch, height, "-m", markersize=2, label="Total")
-    ax.plot(epoch, reversible, "--C7", markersize=2, label="Reversible")
-    ax.plot(epoch, irreversible, "--C7", linewidth=2, label="Irreversible")
-    ax.legend(loc="upper right", fontsize=8)
-    ax.set_ylabel("Relative surface elevation (mm)")
-    ax.grid(linestyle="--", alpha=0.5)
+    ## Plot for a parcel
+    fig, ax1 = plt.subplots(figsize=(12, 6))
+
+    ax1.plot(epoch, height, "-k", markersize=2, label="Total")
+    ax1.plot(epoch, reversible, "-.C7", markersize=2, label="Reversible")
+    ax1.plot(epoch, irreversible, "--C7", linewidth=2, label="Irreversible")
+
+    ax1.set_ylabel("Relative surface elevation (mm)", fontsize=9)
+    ax1.grid(linestyle="--", alpha=0.5)
+    ax1.set_ylim(ymin=min(height) - 50, ymax=max(height) + 50)
 
     ## Add information using text boxes
     info_text = (
         f"Parcel ID: {pid}\n"
         f"Loc (lon, lat): {round(df_spams_sel['pnt_lon'].values[0], 4)}, {round(df_spams_sel['pnt_lat'].values[0], 4)}\n"
         f"SPAMS parameters:\n"
-        f"\t$x_P$ = {round(xP, 4)}, $\sigma_{{x_P}}$ = {round(std_xP, 4)}\n"
-        f"\t$x_E$ = {round(xE, 4)}, $\sigma_{{x_E}}$ = {round(std_xE, 4)}\n"
-        f"\t$x_I$ = {round(xI, 4)} mm/day, $\sigma_{{x_I}}$ = {round(std_xI, 4)}\n"
-        f"\t$\\tau$ = {t}"
+        f"\t$x_P$ = {utils.format_with_uncertainty(xP, std_xP)}\n"
+        f"\t$x_P$ = {utils.format_with_uncertainty(xE, std_xE)}\n"
+        f"\t$x_P$ = {utils.format_with_uncertainty(xI, std_xI)}\n"
+        f"\t$\\tau$ = {t}\n"
+        f"Estimated yearly irreversible rate:\n"
+        f"\t$\overline{{v_I}}$ = {utils.format_with_uncertainty(vI, std_vI)} mm/year"
     )
-    ax.text(
-        0.02,
-        0.14,
+    ax1.text(
+        0.01,
+        0.87,
         info_text,
         verticalalignment="center",
-        transform=ax.transAxes,
+        transform=ax1.transAxes,
         fontsize=8,
-        bbox=dict(facecolor="white", alpha=0.7),
+        bbox=dict(facecolor="white", alpha=0.7, edgecolor="gray"),
     )
 
     source_text = "Data source: 10.4121/dfbe9109-d058-4a64-a5b4-1cc9d9a5f836"
-    ax.text(
-        0.6,
-        0.04,
+    ax1.text(
+        0.01,
+        0.03,
         source_text,
         verticalalignment="center",
-        transform=ax.transAxes,
+        transform=ax1.transAxes,
         fontsize=8,
-        bbox=dict(facecolor="white", alpha=0.7),
+        bbox=dict(facecolor="white", alpha=0.7, edgecolor="gray"),
     )
 
+    ## Meteorological data plot
+    meteo_subset = df_meteo.loc[
+        (df_meteo["datum"] > start) & (df_meteo["datum"] <= end)
+    ].reset_index(drop=True)
+
+    ax2 = ax1.twinx()
+    ax2.bar(
+        meteo_subset["datum"],
+        meteo_subset["precip"],
+        color="blue",
+        alpha=0.6,
+        label="Daily precip.",
+    )
+    ax2.bar(
+        meteo_subset["datum"],
+        -meteo_subset["evapo"],
+        color="red",
+        alpha=0.6,
+        label="Daily evapo. (negative)",
+    )
+
+    ax2.set_ylabel("Daily precip. / evapo. amount (mm)", fontsize=9)
+    ax2.set_ylim(
+        ymin=max(meteo_subset["evapo"]) * -1 - 5,
+        ymax=max(meteo_subset["precip"]) + 30,
+    )
+
+    fig.legend(bbox_to_anchor=(0.94, 0.97), fontsize=8)
+    fig.tight_layout()
     plt.show()
 
 
