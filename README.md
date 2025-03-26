@@ -1,7 +1,7 @@
 # pyspams
 A Python implementation to create a realization of relative surface elevation using a set of estimated SPAMS parameters (Simple Parameterization for the Motion of Soils) and meteorological input data.
 
-Reference: Conroy, P., van Diepen, S.A., Hanssen, R.F., 2023. SPAMS: A new empirical model for soft soil surface displacement based on meteorological input data. Geoderma 440, 116699. doi:10.1016/j.geoderma.2023.116699.
+Reference: Conroy, P., van Diepen, S.A.N., Hanssen, R.F., 2023. SPAMS: A new empirical model for soft soil surface displacement based on meteorological input data. Geoderma 440, 116699. doi:10.1016/j.geoderma.2023.116699.
 
 This model uses daily precipitation and evapotranspiration data, preferably from the closest meteorological station. The estimated SPAMS model parameters can be evaluated for chosen period.
 
