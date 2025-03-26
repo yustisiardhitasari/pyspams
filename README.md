@@ -1,9 +1,9 @@
 # pyspams
-A Python implementation of Simple Parameterization for the Motion of Soils (SPAMS)
+A Python implementation to create a realization of relative surface elevation using a set of estimated SPAMS parameters (Simple Parameterization for the Motion of Soils) and meteorological input data.
 
-Reference: Conroy, P., van Diepen, S.A., Hanssen, R.F., 2023. SPAMS: A new empirical model for soft soil surface displacement based on meteorological input data. Geoderma 440, 116699. doi:10.1016/j.geoderma.2023.116699.
+Reference: Conroy, P., van Diepen, S.A.N., Hanssen, R.F., 2023. SPAMS: A new empirical model for soft soil surface displacement based on meteorological input data. Geoderma 440, 116699. doi:10.1016/j.geoderma.2023.116699.
 
-This model uses daily precipitation and evapotranspiration data from the closest meteorological station. The model parameters can be estimated using a certain period of observations, such as from extensometer and Interferometry Synthetic Aperture Radar (InSAR) data.
+This model uses daily precipitation and evapotranspiration data, preferably from the closest meteorological station. The estimated SPAMS model parameters can be evaluated for chosen period.
 
 ## Requirements
 - [numpy](https://numpy.org/)
@@ -12,10 +12,10 @@ This model uses daily precipitation and evapotranspiration data from the closest
 
 ## Data
 To generate time series surface motion using SPAMS, you need two datasets:
-- A set of SPAMS parameters (see the reference for more details).
-- Daily precipitation and evapotranspiration amount.
+- A set of estimated SPAMS parameters (see the reference for more details).
+- Daily precipitation and evapotranspiration values.
 
-A set of SPAMS parameters (SPAMS10) for the Krimpenerwaard region in the Netherlands is available through [4TU.ResearchData](https://doi.org/10.4121/dfbe9109-d058-4a64-a5b4-1cc9d9a5f836). Users can download the data and the metadata from that repository to model relative surface elevation changes using this repository. The meteorological data from The Royal Netherlands Meteorological Institute [KNMI](https://www.knmi.nl/nederland-nu/klimatologie/daggegevens) stations can be downloaded following the station ID available in the metadata.
+An example set of SPAMS parameters (SPAMS10) is available for the Krimpenerwaard region in the Netherlands through [4TU.ResearchData](https://doi.org/10.4121/dfbe9109-d058-4a64-a5b4-1cc9d9a5f836). Users can download the data and the metadata from that repository to model relative surface elevation changes using this repository. The meteorological data from The Royal Netherlands Meteorological Institute [KNMI](https://www.knmi.nl/nederland-nu/klimatologie/daggegevens) stations can be downloaded following the station ID available in the metadata.
 
 ## Usage
 ### Get information about required input parameters
