@@ -137,7 +137,7 @@ def main():
         bbox=dict(facecolor="white", alpha=0.7, edgecolor="gray"),
     )
 
-    source_text = "Data source: 10.4121/dfbe9109-d058-4a64-a5b4-1cc9d9a5f836"
+    source_text = "Source: https://doi.org/10.4121/dfbe9109-d058-4a64-a5b4-1cc9d9a5f836"
     ax1.text(
         0.01,
         0.03,
