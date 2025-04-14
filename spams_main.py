@@ -122,7 +122,7 @@ def main():
         f"SPAMS parameters:\n"
         f"\t$x_P$ = {utils.format_with_uncertainty(xP, std_xP)}\n"
         f"\t$x_P$ = {utils.format_with_uncertainty(xE, std_xE)}\n"
-        f"\t$x_P$ = {utils.format_with_uncertainty(xI, std_xI)}\n"
+        f"\t$x_P$ = {utils.format_with_uncertainty(xI, std_xI)} mm/day\n"
         f"\t$\\tau$ = {t}\n"
         f"Estimated yearly irreversible rate:\n"
         f"\t$\overline{{v_I}}$ = {utils.format_with_uncertainty(vI, std_vI)} mm/year"
