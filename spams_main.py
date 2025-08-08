@@ -143,8 +143,10 @@ def main():
 
     if "krimpenerwaard" in args.spams10_filepath:
         source_text = "Source: https://doi.org/10.4121/dfbe9109-d058-4a64-a5b4-1cc9d9a5f836"
-    if "delfland" in args.spams10_filepath:
+    elif "delfland" in args.spams10_filepath:
         source_text = "Source: https://doi.org/10.4121/c8646561-5475-4e23-bd90-3b1a3375ac7c"
+    else:
+        source_text = "Source: no DOI found"
     ax1.text(
         0.01,
         0.03,
